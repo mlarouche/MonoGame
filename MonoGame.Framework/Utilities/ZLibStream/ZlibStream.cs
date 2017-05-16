@@ -2757,7 +2757,20 @@ namespace MonoGame.Utilities
             // two codes of non zero frequency.
             while (s.heap_len < 2)
             {
-                node = s.heap[++s.heap_len] = (max_code < 2 ? ++max_code : 0);
+                if (max_code < 2)
+                {
+                    ++max_code;
+                    s.heap[s.heap_len] = max_code;
+                    node = max_code;
+                }
+                else
+                {
+                    s.heap[s.heap_len] = 0;
+                    node = 0;
+                }
+
+                ++s.heap_len;
+
                 tree[node * 2] = 1;
                 s.depth[node] = 0;
                 s.opt_len--;
