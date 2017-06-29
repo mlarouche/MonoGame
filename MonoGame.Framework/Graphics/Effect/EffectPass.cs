@@ -122,6 +122,9 @@ namespace Microsoft.Xna.Framework.Graphics
                 var param = _effect.Parameters[sampler.parameter];
                 var texture = param.Data as Texture;
 
+                if (texture != null && texture.IsDisposed) 
+                    texture = null;
+
                 textures[sampler.textureSlot] = texture;
 
                 // If there is a sampler state set it.
