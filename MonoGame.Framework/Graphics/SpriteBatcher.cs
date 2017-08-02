@@ -27,7 +27,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <summary>
         /// The maximum number of batch items that can be processed per iteration
         /// </summary>
-        private const int MaxBatchSize = short.MaxValue / 6; // 6 = 4 vertices unique and 2 shared, per quad
+        private const int MaxBatchSize = int.MaxValue / 6; // 6 = 4 vertices unique and 2 shared, per quad
         /// <summary>
         /// Initialization size for the vertex array, in batch units.
         /// </summary>
@@ -50,7 +50,7 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <summary>
         /// Vertex index array. The values in this array never change.
         /// </summary>
-        private short[] _index;
+        private int[] _index;
 
         private VertexPositionColorTexture[] _vertexArray;
 
@@ -101,14 +101,14 @@ namespace Microsoft.Xna.Framework.Graphics
                 // Short circuit out of here because we have enough capacity.
                 return;
             }
-            short[] newIndex = new short[6 * numBatchItems];
+            int[] newIndex = new int[6 * numBatchItems];
             int start = 0;
             if (_index != null)
             {
                 _index.CopyTo(newIndex, 0);
                 start = _index.Length / 6;
             }
-            fixed (short* indexFixedPtr = newIndex)
+            fixed (int* indexFixedPtr = newIndex)
             {
                 var indexPtr = indexFixedPtr + (start * 6);
                 for (var i = start; i < numBatchItems; i++, indexPtr += 6)
@@ -124,13 +124,13 @@ namespace Microsoft.Xna.Framework.Graphics
                      *  BL    BR
                      */
                     // Triangle 1
-                    *(indexPtr + 0) = (short)(i * 4);
-                    *(indexPtr + 1) = (short)(i * 4 + 1);
-                    *(indexPtr + 2) = (short)(i * 4 + 2);
+                    *(indexPtr + 0) = (int)(i * 4);
+                    *(indexPtr + 1) = (int)(i * 4 + 1);
+                    *(indexPtr + 2) = (int)(i * 4 + 2);
                     // Triangle 2
-                    *(indexPtr + 3) = (short)(i * 4 + 1);
-                    *(indexPtr + 4) = (short)(i * 4 + 3);
-                    *(indexPtr + 5) = (short)(i * 4 + 2);
+                    *(indexPtr + 3) = (int)(i * 4 + 1);
+                    *(indexPtr + 4) = (int)(i * 4 + 3);
+                    *(indexPtr + 5) = (int)(i * 4 + 2);
                 }
             }
             _index = newIndex;
